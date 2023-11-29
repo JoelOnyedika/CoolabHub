@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { sidebarTabsTwo } from "@/constants/constants";
 
 interface IDashboardNavbar {

@@ -4,8 +4,8 @@ import {
   sidebarTabsOne,
   sidebarTabsSubmenu,
   sidebarTabsTwo,
-} from "../constants/constants";
-import { Button } from "./ui/button";
+} from "../../constants/constants";
+import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Undo2,
@@ -16,7 +16,7 @@ import {
   FileText,
   PlusCircle,
 } from "lucide-react";
-import CustomButton from "./CustomizableBtn";
+import CustomButton from "../CustomizableBtn";
 import {
   Collapsible,
   CollapsibleContent,
@@ -30,9 +30,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogTrigger, DialogContent } from "./ui/dialog";
-import SearchDialog from "./SearchDialog";
-import SettingsDialog from "./settings/SettingsDialog";
+import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
+import SearchDialog from "../search/SearchDialog";
+import SettingsDialog from "../settings/SettingsDialog";
 import CustomizableDialog from "./CustomizableDialog";
 
 // Import other necessary components and libraries

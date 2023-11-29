@@ -1,8 +1,9 @@
 import React from 'react'
 import MyAccountPage from './pages/MyAccountPage';
-import MySettingsPage from './pages/MySettingsPage';
+import MySettingsPage from './pages/MyNotificationsPage';
 import UpgradePage from './pages/UpgradePage';
-import MyNotificationsPage from './pages/MyNotificationsPage';
+import MyNotificationsPage from './pages/MySettingsPage';
+import AccountSettings from './pages/AccountSettings';
 
 interface ITabs {
     tab: string;
@@ -16,14 +17,14 @@ const SettingsTabContent: React.FC<{ activeTab: number | null }> = ({ activeTab 
       case 1:
         return <MyAccountPage />;
       case 2:
-        return <MySettingsPage/>;
-      case 3:
         return <MyNotificationsPage />;
+      case 3:
+        return <MySettingsPage/>;
       case 4:
-        return <UpgradePage/>;
-      case 5:
-        return <div>Content for Tab 5</div>;
-      // Add more cases as needed
+        return <AccountSettings/>
+        case 5:
+          return <UpgradePage/>;
+          // Add more cases as needed
       default:
         return <MyAccountPage />;
     }
