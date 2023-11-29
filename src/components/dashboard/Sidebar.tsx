@@ -16,7 +16,7 @@ import {
   FileText,
   PlusCircle,
 } from "lucide-react";
-import CustomButton from "../CustomizableBtn";
+import CustomButton from "../customs/CustomizableBtn";
 import {
   Collapsible,
   CollapsibleContent,
@@ -33,7 +33,6 @@ import {
 import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
 import SearchDialog from "../search/SearchDialog";
 import SettingsDialog from "../settings/SettingsDialog";
-import CustomizableDialog from "./CustomizableDialog";
 
 // Import other necessary components and libraries
 

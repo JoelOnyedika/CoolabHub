@@ -1,15 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -42,7 +33,7 @@ const DashboardNavbar: React.FC<IDashboardNavbar> = ({ modeId }) => {
   const { name, icon } = foundModeId;
   const IconComponent = icon || null;
   return (
-    <div className="flex items-center justify-between bg-gray-800 p-4 w-full">
+    <div className="flex items-center justify-between p-4 w-full">
   {/* Left Section */}
   <div className="flex items-center">
     {IconComponent && <IconComponent className="text-white mr-3" />}
