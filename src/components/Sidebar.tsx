@@ -32,17 +32,29 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogTrigger, DialogContent } from "./ui/dialog";
 import SearchDialog from "./SearchDialog";
+import SettingsDialog from "./settings/SettingsDialog";
+import CustomizableDialog from "./CustomizableDialog";
 
 // Import other necessary components and libraries
 
-const SideMenu: React.FC = () => {
+interface HoverStates {
+  [key: string]: boolean;
+}
+
+interface ISideMenu {
+  setActiveTab: any;
+}
+
+const SideMenu: React.FC<ISideMenu> = ({ setActiveTab }) => {
   const [isChevronOpen, setIsChevronOpen] = useState(false);
   const [chevronIcon, setChevronIcon] = useState(<ChevronRight />);
   const [activeChevronId, setActiveChevronId] = useState<number | null>(null);
   const [ellipsisMenuStates, setEllipsisMenuStates] = useState<
     Record<number, boolean>
   >({});
-  const [textColor, setTextColor] = useState<null | string>(null);
+  const [hoverStates, setHoverStates] = useState<HoverStates>({});
+  const [activeTabLocal, setActiveTabLocal] = useState(1);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const toggleChevron = (id: number) => {
     setIsChevronOpen((prevIsChevronOpen) => !prevIsChevronOpen);
@@ -55,6 +67,15 @@ const SideMenu: React.FC = () => {
       ...prevStates,
       [id]: !prevStates[id],
     }));
+  };
+
+  const setIsHovered = (id: number, value: boolean) => {
+    setHoverStates((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const toggleTab = (tabId: number) => {
+    setActiveTab(tabId);
+    setActiveTabLocal(activeTabLocal);
   };
 
   return (
@@ -78,33 +99,56 @@ const SideMenu: React.FC = () => {
         </div>
         <div className="flex-1 overflow-y-auto p-4">
           <ul>
-            {sidebarTabsOne.map((data) => (
-              <li key={data.id}>
-                <Button variant="ghost">
-                  <div className="mr-3 inline-flex">
-                  <data.icon className="scale-75" />
-                  </div>
-                  {data.name === "Search" ? (
+            {sidebarTabsOne.map((data) => {
+              return (
+                <li key={data.id}>
+                  {data.id === 1 ? (
                     <Dialog>
                       <DialogTrigger>
-                      {data.name}
+                        <Button variant="ghost">
+                          <div className="mr-1 inline-flex">
+                            {data.icon && <data.icon className="scale-75" />}
+                          </div>
+                          {data.name}
+                        </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-md gap-5">
                         <SearchDialog />
                       </DialogContent>
-
+                    </Dialog>
+                  ) : data.id === 3 ? (
+                    <Dialog>
+                      <DialogTrigger>
+                        <Button
+                          variant="ghost"
+                          onClick={() => setIsDialogOpen(true)}
+                        >
+                          <div className="mr-1 inline-flex">
+                            {data.icon && <data.icon className="scale-75" />}
+                          </div>
+                          {data.name}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <SettingsDialog />
+                      </DialogContent>
                     </Dialog>
                   ) : (
-                    data.name
+                    <Button variant="ghost">
+                      <div className="mr-1 inline-flex">
+                        {data.icon && <data.icon className="scale-75" />}
+                      </div>
+                      {data.name}
+                    </Button>
                   )}
-                </Button>
-              </li>
-            ))}
+                </li>
+              );
+            })}
             <div className="mt-2 p-4">
               {sidebarTabsTwo.map((data) => (
                 <Fragment key={data.id}>
                   <Collapsible>
-                    <li key={data.id}>
+                    <li key={data.id} className="flex items-center gap-0">
                       <CustomButton
                         icon={
                           activeChevronId === data.id ? (
@@ -114,44 +158,63 @@ const SideMenu: React.FC = () => {
                           )
                         }
                         onClick={() => toggleChevron(data.id)}
+                        className="p-0 m-0"
                       />
-                      <Button className="mb-3" variant={"ghost"}>
-                        <div className="mr-3 inline-flex">
+                      <Button
+                        className="mb-1 pl-0"
+                        variant={"ghost"}
+                        onClick={() => toggleTab(data.id)}
+                      >
+                        <div className="mr-1 inline-flex">
                           <data.icon className="scale-75" />
                         </div>
                         {data.name}
                       </Button>
-                      <CustomButton icon={<Plus />} />
-
-                      <DropdownMenu
-                        open={!!ellipsisMenuStates[data.id]} // Use the !! to convert to boolean
-                        onOpenChange={() => toggleElipsisMenu(data.id)}
+                      <div
+                        className={`transition-opacity flex duration-300 ease-in-out ${
+                          hoverStates[data.id] ? "opacity-100" : "opacity-0"
+                        } cursor-pointer`}
+                        onMouseEnter={() => setIsHovered(data.id, true)}
+                        onMouseLeave={() => setIsHovered(data.id, false)}
                       >
-                        <DropdownMenuTrigger
-                          asChild
-                          onClick={() => toggleElipsisMenu(data.id)}
+                        <Button variant={"ghost"}>
+                          <Plus className="scale-75 p-0 m-0" />
+                        </Button>
+
+                        <DropdownMenu
+                          open={!!ellipsisMenuStates[data.id]} // Use the !! to convert to boolean
+                          onOpenChange={() => toggleElipsisMenu(data.id)}
                         >
-                          <Button variant="ghost" size="sm">
-                            <MoreHorizontal />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-[200px]">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuGroup>
-                            {sidebarTabsSubmenu.map((data) => (
-                              <DropdownMenuItem
-                                key={data.id}
-                                style={{
-                                  color: data.name === "Delete" ? "red" : null,
-                                }}
-                              >
-                                <div className="mr-3">{<data.icon />}</div>
-                                {data.name}
-                              </DropdownMenuItem>
-                            ))}
-                          </DropdownMenuGroup>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                          <DropdownMenuTrigger
+                            asChild
+                            onClick={() => toggleElipsisMenu(data.id)}
+                          >
+                            <Button variant="ghost" size="sm">
+                              <MoreHorizontal />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent
+                            align="end"
+                            className="w-[200px]"
+                          >
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuGroup>
+                              {sidebarTabsSubmenu.map((data) => (
+                                <DropdownMenuItem
+                                  key={data.id}
+                                  style={{
+                                    color:
+                                      data.name === "Delete" ? "red" : null,
+                                  }}
+                                >
+                                  <div className="mr-1">{<data.icon />}</div>
+                                  {data.name}
+                                </DropdownMenuItem>
+                              ))}
+                            </DropdownMenuGroup>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </li>
                     <li
                       className={`ml-14 mb-4 ${
@@ -171,12 +234,6 @@ const SideMenu: React.FC = () => {
                   </Collapsible>
                 </Fragment>
               ))}
-              <li className="mt-3">
-                <Button variant="ghost">
-                  <PlusCircle className="scale-75 mr-3" />
-                  Add Page
-                </Button>
-              </li>
             </div>
           </ul>
         </div>

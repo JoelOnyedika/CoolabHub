@@ -1,14 +1,19 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import SideMenu from '@/components/Sidebar'
+import DashboardNavbar from '@/components/DashboardNavbar'
+import TabContent from '@/components/tabs/tab'
 
 const page = () => {
+  const [activeTab, setActiveTab] = useState(null)
   return (
     <div className='flex'>
         <div>
-            <SideMenu />
+            <SideMenu setActiveTab={setActiveTab}/>
         </div>
         <div>
-            page
+            <DashboardNavbar modeId={activeTab}/>
+            <TabContent activeTab={activeTab} />
         </div>
     </div>
   )

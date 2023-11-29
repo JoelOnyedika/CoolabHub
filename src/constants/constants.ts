@@ -1,4 +1,4 @@
-import {Search, Clock3, Settings, PlusCircle, Pin, Scissors, BookText, FileSignature, BookOpenText, FileText, Trash2 } from 'lucide-react'
+import {Search, Clock3, Settings, PlusCircle, Pin, Scissors, BookText, FileSignature, BookOpenText, FileText, Trash2, SlidersHorizontal, Bell, ArrowUpCircle, User2 } from 'lucide-react'
 
 export const sidebarTabsOne = [
     {id: 1, name: "Search", icon:Search},
@@ -18,4 +18,15 @@ export const sidebarTabsTwo = [
 export const sidebarTabsSubmenu = [
     {id: 1, name: "Rename", icon: FileSignature},
     {id: 2, name: "Delete", icon: Trash2}
+]
+
+export const accountSettingsMenu = [
+    {id: 1, name: "My Account", icon: User2},
+    {id: 2, name: "My Settings", icon: SlidersHorizontal},
+    {id: 3, name: "My Notifications", icon: Bell},
+]
+
+export const workspaceSettingsMenu = [
+    {id: 4, name: "Settings", icon: Settings},
+    {id: 5, name: "Upgrade", icon: ArrowUpCircle},
 ]
