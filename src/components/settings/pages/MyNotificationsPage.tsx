@@ -76,7 +76,7 @@ const MyNotificationsPage = () => {
                   <FormLabel className="text-base">
                     Announcements and update emails
                   </FormLabel>
-                  <FormDescription>
+                  <FormDescription className="whitespace-nowrap">
                     Receive occasional emails about product launches and new
                     features from CoolabHub
                   </FormDescription>

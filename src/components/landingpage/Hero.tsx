@@ -2,8 +2,8 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import PeopleImg from '../../public/images/people.png'
-import avatarsImg from '../../public/images/avatars.png'
+import PeopleImg from '../../../public/images/people.png'
+import avatarsImg from '../../../public/images/avatars.png'
 
 const Hero = () => {
   return (

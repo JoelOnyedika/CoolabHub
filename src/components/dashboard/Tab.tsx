@@ -1,4 +1,5 @@
 import React from 'react'
+import GettingStartedPage from './page/GettingStartedPage';
 
 interface ITabs {
     tab: string;
@@ -10,7 +11,7 @@ const TabContent: React.FC<{ activeTab: number | null }> = ({ activeTab }) => {
     // Customize the content for each tab based on the activeTab
     switch (activeTab) {
       case 1:
-        return <div>Content for Tab 1</div>;
+        return <GettingStartedPage />;
       case 2:
         return <div>Content for Tab 2</div>;
       case 3:
@@ -21,7 +22,7 @@ const TabContent: React.FC<{ activeTab: number | null }> = ({ activeTab }) => {
         return <div>Content for Tab 5</div>;
       // Add more cases as needed
       default:
-        return <div>No content available</div>;
+        return <GettingStartedPage />;
     }
   };
 

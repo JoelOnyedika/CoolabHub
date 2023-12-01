@@ -78,8 +78,7 @@ const SideMenu: React.FC<ISideMenu> = ({ setActiveTab }) => {
   };
 
   return (
-    <div className={`h-screen border-slate-400 text-white transition-all`}>
-      <div>
+    <div className={`h-screen border-slate-400 text-white transition-all w-full`}>
         <div className="flex items-center justify-between p-4">
           <div className="inline-flex items-center justify-center">
             <div className="inline-flex gap-3 items-center">
@@ -236,7 +235,6 @@ const SideMenu: React.FC<ISideMenu> = ({ setActiveTab }) => {
             </div>
           </ul>
         </div>
-      </div>
     </div>
   );
 };
