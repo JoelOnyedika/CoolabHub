@@ -1,61 +1,42 @@
-"use client";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import React, { useRef, useState, ChangeEvent, FormEvent } from "react";
-import { Plus, BadgePercent } from "lucide-react";
-import Image from "next/image";
-import { Image as ImageIcon } from "lucide-react";
+import { BadgePercent, Image as ImageIcon, Plus } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-import { Label } from "@/components/ui/label";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 const GettingStartedPage = () => {
-  const [chosenEmoji, setChosenEmoji] = useState<any | string>("");
-  const [selectedUploadImage, setSelectedUploadImage] = useState<File | null>(
-    null
-  );
-  const [image, setImage] = useState<File | string | null>(null);
+  const [chosenEmoji, setChosenEmoji] = useState<string>("");
+  const [image, setImage] = useState<File | null | string>(null);
 
-  const handleFileChange = (event: any) => {
-    // Handle the file change here
-    const selectedFile = event.target.files[0];
-    // You can use the selectedFile for further processing (e.g., upload to a server)
-    setSelectedUploadImage(selectedFile);
-  };
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>): void => {
-    const file = e.target.files?.[0];
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setImage(file);
     }
   };
 
-  const handleUrlSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleUrlSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setImage(e.target.value)
+    // You can handle the URL submission logic here if needed
+    const url = form.getValues().url;
+    setImage(url);
   };
 
-  const handleImageSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleImageSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle image submission here, for example, you can use the uploadedImage state
+    // You can handle the image submission logic here if needed
+    if (image) {
+      // Use 'image' as needed, for example, send it to the server
+      console.log("Selected image:", image);
+    }
   };
 
   const FormSchema = z.object({
@@ -69,9 +50,9 @@ const GettingStartedPage = () => {
   return (
     <div className="h-screen">
       <div>
+        {image && <img className="w-full" src={URL.createObjectURL(image)} alt="Uploaded from file" />}
         <div>
-          {chosenEmoji && <span className="text-4xl">{chosenEmoji}</span>}
-          {image && <img src={image}/>}
+          {chosenEmoji && <span className="text-[50px]">{chosenEmoji}</span>}
         </div>
         <div className="group flex">
           <Dialog>
@@ -87,60 +68,41 @@ const GettingStartedPage = () => {
             <DialogContent className="space-y-8">
               <Label>Input a URL or upload an image</Label>
               <Form {...form}>
-                <form action="" className="space-y-8">
+                <form
+                  onSubmit={form.handleSubmit(handleImageSubmit)}
+                  className="space-y-8 items-center"
+                >
                   {/* Image url field */}
-                  <FormField
-                    control={form.control}
-                    name="url"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center justify-between">
-                        <div className="space-y-0.5">
-                          <FormControl>
-                            <div className="flex">
-                              <Input
-                                placeholder="Url to an image"
-                                {...field}
-                                onSubmit={(e) => handleUrlSubmit}
-                              />
-                              <Button type="submit" variant={"outline"}>
-                                Submit
-                              </Button>
-                            </div>
-                          </FormControl>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Image upload field */}
+                <FormField
+                  control={form.control}
+                  name="url"
+                  render={({ field }) => (
+                    <div className="space-y-0.5">
+                      <Input
+                        placeholder="Url to an image"
+                        {...field}
+                        onChange={(event) => setImage(event?.target.value)}
+                    />
+                    </div>
+                  )}
+                />
+                {/* Image uplad field */}
                   <FormField
                     control={form.control}
                     name="image"
                     render={({ field }) => (
-                      <FormItem className="flex flex-row items-center justify-between">
-                        <div className="space-y-0.5 flex">
-                          <FormControl>
-                            <div>
-                              <input
-                                type="file"
-                                ref={fileInputRef}
-                                style={{ display: "none" }}
-                                onChange={handleImageUpload}
-                                accept="image/*"
-                              />
-                              <Button
-                                onClick={() => fileInputRef.current.click()}
-                                variant="outline"
-                              >
-                                Upload an image
-                              </Button>
-                            </div>
-                          </FormControl>
-                        </div>
-                      </FormItem>
+                      <div className="space-y-0.5 flex">
+                        <input
+                          type="file"
+                          onChange={handleImageChange}
+                          accept="image/*"
+                        />
+                        <Button type="submit" variant="outline">
+                          Upload an image
+                        </Button>
+                      </div>
                     )}
                   />
-                  <Button type="submit">Submit</Button>
                 </form>
               </Form>
             </DialogContent>

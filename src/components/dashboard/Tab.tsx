@@ -1,5 +1,6 @@
 import React from 'react'
 import GettingStartedPage from './page/GettingStartedPage';
+import QuickNotePage from './page/QuickNotePage';
 
 interface ITabs {
     tab: string;
@@ -13,7 +14,7 @@ const TabContent: React.FC<{ activeTab: number | null }> = ({ activeTab }) => {
       case 1:
         return <GettingStartedPage />;
       case 2:
-        return <div>Content for Tab 2</div>;
+        return <QuickNotePage />
       case 3:
         return <div>Content for Tab 3</div>;
       case 4:
